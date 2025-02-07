@@ -21,7 +21,7 @@ def game_loop(window):
         direction = get_new_direction(window=window, timeout=100) # O tempo de timeout determina a velocidade do actor, quanto menor o timeout, mais rápido
         if direction is None:
             direction = current_direction
-        if direction_is_opposite(direction=direction, current_direction=current_direction)
+        if direction_is_opposite(direction=direction, current_direction=current_direction):
             direction = current_direction
         move_snake(snake=snake, direction=direction, snake_ate_fruit=snake_ate_fruit)
         if snake_hit_border(snake=snake, window=window):
