@@ -20,7 +20,7 @@ def game_loop(window, game_speed):
         draw_screen(window=window)
         draw_snake(snake=snake, window=window)
         draw_actor(actor=fruit, window=window, char=curses.ACS_DIAMOND)
-        direction = get_new_direction(window=window, timeout=game_speed) # O tempo de timeout determina a velocidade do actor, quanto menor o timeout, mais rápido
+        direction = get_new_direction(window=window, timeout=game_speed)
         if direction is None:
             direction = current_direction
         if direction_is_opposite(direction=direction, current_direction=current_direction):
