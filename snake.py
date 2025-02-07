@@ -2,7 +2,7 @@ import curses
 import random
 import time
 
-def game_loop(window):
+def game_loop(window, game_speed):
     # Setup Inicial
     curses.curs_set(0)
     snake = [
@@ -20,7 +20,7 @@ def game_loop(window):
         draw_screen(window=window)
         draw_snake(snake=snake, window=window)
         draw_actor(actor=fruit, window=window, char=curses.ACS_DIAMOND)
-        direction = get_new_direction(window=window, timeout=100) # O tempo de timeout determina a velocidade do actor, quanto menor o timeout, mais rápido
+        direction = get_new_direction(window=window, timeout=game_speed) # O tempo de timeout determina a velocidade do actor, quanto menor o timeout, mais rápido
         if direction is None:
             direction = current_direction
         if direction_is_opposite(direction=direction, current_direction=current_direction):
@@ -121,6 +121,21 @@ def actor_hit_border(actor, window):
     if (actor[1] <= 0) or (actor[1] >= width-1):
         return True
     return False
+
+def select_difficulty():
+    difficulty = {
+        '1' : 1000,
+        '2' : 500,
+        '3' : 150,
+        '4' : 90,
+        '5' : 35,
+    }
+    while True:
+        answer = input('Selecione a dificuldade de 1 a 5:')
+        game_speed = difficulty.get(answer)
+        if game_speed is not None:
+            return game_speed
+        print('Escolha a dificuldade de 1 a 5!')
     
 if __name__ == '__main__':
-    curses.wrapper(game_loop)
+    curses.wrapper(game_loop, game_speed=select_difficulty())
