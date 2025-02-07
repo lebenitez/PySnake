@@ -46,9 +46,9 @@ def finish_game(score, window):
     x = int((width - len(s)) / 2)
     window.addstr(y,x,s)
     window.refresh()
-    time.sleep(2)
+    time.sleep(3)
 
-def direction_is_opposite(direction, current_direction):()
+def direction_is_opposite(direction, current_direction):
      match direction:
             case curses.KEY_UP:
                 return current_direction == curses.KEY_DOWN
@@ -124,4 +124,3 @@ def actor_hit_border(actor, window):
     
 if __name__ == '__main__':
     curses.wrapper(game_loop)
-    print('Perdeu!')
