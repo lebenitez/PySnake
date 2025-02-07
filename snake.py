@@ -1,5 +1,6 @@
 import curses
 import random
+import time
 
 def game_loop(window):
     # Setup Inicial
@@ -13,6 +14,7 @@ def game_loop(window):
     fruit = get_new_fruit(window=window)
     current_direction = curses.KEY_RIGHT
     snake_ate_fruit = False
+    score = 0
 
     while True:
         draw_screen(window=window)
@@ -25,17 +27,28 @@ def game_loop(window):
             direction = current_direction
         move_snake(snake=snake, direction=direction, snake_ate_fruit=snake_ate_fruit)
         if snake_hit_border(snake=snake, window=window):
-            return
+            break
         if snake_hit_itself(snake=snake):
-            return
+            break
         if snake_hit_fruit(snake, fruit= fruit):
            snake_ate_fruit = True
            fruit = get_new_fruit(window=window) 
+           score += 1
         else:
             snake_ate_fruit = False
         current_direction = direction
+    finish_game(score=score, window=window)
 
-def direction_is_opposite(direction, current_direction):
+def finish_game(score, window):
+    height, width = window.getmaxyx()
+    s = f'Você perdeu! Coletou {score} frutas!'
+    y = int(height / 2)
+    x = int((width - len(s)) / 2)
+    window.addstr(y,x,s)
+    window.refresh()
+    time.sleep(2)
+
+def direction_is_opposite(direction, current_direction):()
      match direction:
             case curses.KEY_UP:
                 return current_direction == curses.KEY_DOWN
