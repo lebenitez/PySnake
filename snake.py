@@ -1,4 +1,5 @@
 import curses
+import random
 
 def game_loop(window):
     # Setup Inicial
@@ -9,19 +10,30 @@ def game_loop(window):
         [10,13],
         [10,12]
     ]
+    fruit = get_new_fruit(window=window)
     current_direction = curses.KEY_RIGHT
 
     while True:
         draw_screen(window=window)
         draw_snake(snake=snake, window=window)
+        draw_actor(actor=fruit, window=window, char=curses.ACS_DIAMOND)
         direction = get_new_direction(window=window, timeout=100) # O tempo de timeout determina a velocidade do actor, quanto menor o timeout, mais rápido
         if direction is None:
             direction = current_direction
         move_snake(snake=snake, direction=direction)
         if snake_hit_border(snake=snake, window=window):
             return
+        if snake_hit_fruit(snake, fruit= fruit):
+           fruit = get_new_fruit(window=window) 
         current_direction = direction
     
+def get_new_fruit(window):
+    height, width = window.getmaxyx()
+    return[random.randint(1, height-2),random.randint(1, width-2)]
+
+def snake_hit_fruit(snake, fruit):
+    return fruit in snake
+
 def snake_hit_border(snake, window):
     head = snake[0]
     return actor_hit_border(actor=head, window=window)
